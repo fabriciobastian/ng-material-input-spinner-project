@@ -1,0 +1,13 @@
+<input matInput
+  class="number-input"
+  type="number"
+  [step]="step"
+  [disabled]="disabled"
+  [value]="value"
+  (change)="onInputChange($event)">
+<button mat-icon-button type="button" class="increment-button" [disabled]="disabled || spinnerDisabled" (click)=onIncrement()>
+  <mat-icon>add</mat-icon>
+</button>
+<button mat-icon-button type="button" class="decrement-button" [disabled]="disabled || spinnerDisabled" (click)=onDecrement()>
+  <mat-icon>remove</mat-icon>
+</button>

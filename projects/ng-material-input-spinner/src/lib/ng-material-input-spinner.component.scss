@@ -1,0 +1,45 @@
+@import '~@angular/material/theming';
+
+$app-primary: mat-palette($mat-grey);
+$app-accent:  mat-palette($mat-indigo);
+$app-warn:    mat-palette($mat-pink);
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.number-input {
+  text-align: center;
+  width: 120px;
+}
+
+.increment-button {
+  font-family: sans-serif;
+  background-color: map-get($app-primary, 200);
+  color: map-get($app-primary, 700);
+  width: 25px;
+  height: 25px;
+  line-height: 20px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.decrement-button {
+  margin: 0px 0px 0px 3px;
+  background-color: map-get($app-primary, 200);
+  color: map-get($app-primary, 700);
+  width: 25px;
+  height: 25px;
+  line-height: 20px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.mat-icon-button .mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px !important;
+}

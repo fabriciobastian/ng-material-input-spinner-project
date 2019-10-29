@@ -1,0 +1,9 @@
+<div style="margin: 10px">
+  <form [formGroup]="numberGroup">
+    <mat-form-field>
+      <ng-material-input-spinner placeholder="Number" formControlName="numberControl"></ng-material-input-spinner>
+      <mat-error *ngIf="numberControl.invalid">{{ getErrorMessage() }}</mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<button style="margin: 10px" (click)="setValueToTen()">Set value to 10</button>

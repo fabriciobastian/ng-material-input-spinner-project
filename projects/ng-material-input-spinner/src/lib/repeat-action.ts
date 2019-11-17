@@ -1,26 +1,26 @@
-export class TimedAction {
-  private timeoutTimer: any;
-  private timeoutMs: number;
+export class RepeatAction {
+  private initialTimer: any;
+  private initialDelayMs: number;
   private intervalTimer: any;
   private intervalMs: number;
   private action: () => any;
 
   constructor(action: () => any, timeoutMs: number = 500, intervalMs: number = 50) {
     this.action = action;
-    this.timeoutMs = timeoutMs;
+    this.initialDelayMs = timeoutMs;
     this.intervalMs = intervalMs;
   }
 
-  public set() {
-    this.clear();
-    this.timeoutTimer = setTimeout(() =>
+  public start() {
+    this.stop();
+    this.initialTimer = setTimeout(() =>
       this.intervalTimer = setInterval(() => this.action(), this.intervalMs),
-      this.timeoutMs
+      this.initialDelayMs
     );
   }
 
-  public clear() {
-    clearTimeout(this.timeoutTimer);
+  public stop() {
+    clearTimeout(this.initialTimer);
     clearInterval(this.intervalTimer);
   } 
 };

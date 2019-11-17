@@ -3,7 +3,7 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 import { FocusMonitor } from '@angular/cdk/a11y';
-import { TimedAction } from './timed-action';
+import { RepeatAction } from './repeat-action';
 
 @Component({
   selector: 'ng-material-input-spinner',
@@ -89,8 +89,8 @@ export class NgMaterialInputSpinnerComponent implements ControlValueAccessor, Ma
   }
   private _disabled = false;
 
-  private incrementAction: TimedAction;
-  private decrementAction: TimedAction;
+  private incrementAction: RepeatAction;
+  private decrementAction: RepeatAction;
 
   constructor(
     @Optional() @Self() public ngControl: NgControl,
@@ -106,8 +106,8 @@ export class NgMaterialInputSpinnerComponent implements ControlValueAccessor, Ma
       this.stateChanges.next();
     });
 
-    this.incrementAction = new TimedAction(() => { this.increment(); });
-    this.decrementAction = new TimedAction(() => { this.decrement(); });  
+    this.incrementAction = new RepeatAction(() => { this.increment(); });
+    this.decrementAction = new RepeatAction(() => { this.decrement(); });  
   }
 
   ngOnDestroy() {
@@ -129,34 +129,34 @@ export class NgMaterialInputSpinnerComponent implements ControlValueAccessor, Ma
       return;
     }
 
-    this.spinnerDisabled = false || this.disabled;
+    this.spinnerDisabled = this.disabled;
     this.value = +newValue;
   }
 
   onMouseDownIncrement(): void {
-    this.incrementAction.set();
+    this.incrementAction.start();
   }
 
   onMouseUpIncrement(): void {
-    this.incrementAction.clear();
+    this.incrementAction.stop();
     this.increment();
   }
 
   onMouseOutIncrement(): void {
-    this.incrementAction.clear();
+    this.incrementAction.stop();
   }
 
   onMouseDownDecrement(): void {
-    this.decrementAction.set();
+    this.decrementAction.start();
   }
 
   onMouseUpDecrement(): void {
-    this.decrementAction.clear();
+    this.decrementAction.stop();
     this.decrement();
   }
 
   onMouseOutDecrement(): void {
-    this.decrementAction.clear();
+    this.decrementAction.stop();
   }
 
   private increment(): void {
@@ -174,7 +174,7 @@ export class NgMaterialInputSpinnerComponent implements ControlValueAccessor, Ma
       return;
     }
 
-    this.spinnerDisabled = false || this.disabled;
+    this.spinnerDisabled = this.disabled;
     this._value = value;
   }
   

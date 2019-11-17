@@ -1,14 +1,10 @@
 import { Component, OnDestroy, HostBinding, Input, Optional, Self, ElementRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor, NgControl } from '@angular/forms';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 import { FocusMonitor } from '@angular/cdk/a11y';
+import { TimedAction } from './timed-action';
 
-    // {
-    //   provide: NG_VALUE_ACCESSOR,
-    //   useExisting: NgMaterialInputSpinnerComponent,
-    //   multi: true
-    // },
 @Component({
   selector: 'ng-material-input-spinner',
   templateUrl: './ng-material-input-spinner.component.html',
@@ -93,6 +89,9 @@ export class NgMaterialInputSpinnerComponent implements ControlValueAccessor, Ma
   }
   private _disabled = false;
 
+  private incrementAction: TimedAction;
+  private decrementAction: TimedAction;
+
   constructor(
     @Optional() @Self() public ngControl: NgControl,
     private focusMonitor: FocusMonitor,
@@ -106,6 +105,9 @@ export class NgMaterialInputSpinnerComponent implements ControlValueAccessor, Ma
       this.focused = !!origin;
       this.stateChanges.next();
     });
+
+    this.incrementAction = new TimedAction(() => { this.increment(); });
+    this.decrementAction = new TimedAction(() => { this.decrement(); });  
   }
 
   ngOnDestroy() {
@@ -131,11 +133,37 @@ export class NgMaterialInputSpinnerComponent implements ControlValueAccessor, Ma
     this.value = +newValue;
   }
 
-  onIncrement(): void {
+  onMouseDownIncrement(): void {
+    this.incrementAction.set();
+  }
+
+  onMouseUpIncrement(): void {
+    this.incrementAction.clear();
+    this.increment();
+  }
+
+  onMouseOutIncrement(): void {
+    this.incrementAction.clear();
+  }
+
+  onMouseDownDecrement(): void {
+    this.decrementAction.set();
+  }
+
+  onMouseUpDecrement(): void {
+    this.decrementAction.clear();
+    this.decrement();
+  }
+
+  onMouseOutDecrement(): void {
+    this.decrementAction.clear();
+  }
+
+  private increment(): void {
     this.value = +(this._value + this.step).toFixed(this.digits);
   }
 
-  onDecrement(): void {
+  private decrement(): void {
     this.value = +(this._value - this.step).toFixed(this.digits);
   }
 

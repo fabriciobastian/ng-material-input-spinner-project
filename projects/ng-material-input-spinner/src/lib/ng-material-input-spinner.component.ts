@@ -17,8 +17,8 @@ import { RepeatAction } from './repeat-action';
   styleUrls: ['./ng-material-input-spinner.component.scss']
 })
 export class NgMaterialInputSpinnerComponent implements ControlValueAccessor, MatFormFieldControl<number>, OnDestroy {
-  step = 0.1;
-  digits = 2;
+  step = 0.01;
+  digits = 0;
 
   stateChanges = new Subject<void>();
   focused = false;
@@ -53,7 +53,7 @@ export class NgMaterialInputSpinnerComponent implements ControlValueAccessor, Ma
   private _required = false;
 
   @Input()
-  get placeholder() {
+  get placeholder(): string {
     return this._placeholder;
   }
   set placeholder(placeholder: string) {
@@ -73,7 +73,7 @@ export class NgMaterialInputSpinnerComponent implements ControlValueAccessor, Ma
   }
   private _value: number;
 
-  get empty() {
+  get empty(): boolean {
     return this.value === void 0 || this.value === null;
   }
 
@@ -106,16 +106,19 @@ export class NgMaterialInputSpinnerComponent implements ControlValueAccessor, Ma
       this.stateChanges.next();
     });
 
+    const numberComponents = this.step.toString().split('.');
+    this.digits = numberComponents.length > 1 ? numberComponents[numberComponents.length-1].length : 0;
+
     this.incrementAction = new RepeatAction(() => { this.increment(); });
     this.decrementAction = new RepeatAction(() => { this.decrement(); });  
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.focusMonitor.stopMonitoring(this.elementRef.nativeElement);
     this.stateChanges.complete();
   }
 
-  onContainerClick(event: MouseEvent) {
+  onContainerClick(event: MouseEvent): void {
     if ((event.target as Element).tagName.toLowerCase() != 'input') {
       this.elementRef.nativeElement.querySelector('input').focus();
     }
@@ -130,7 +133,7 @@ export class NgMaterialInputSpinnerComponent implements ControlValueAccessor, Ma
     }
 
     this.spinnerDisabled = this.disabled;
-    this.value = +newValue;
+    this.value = this.roundToClosestStep(+newValue);
   }
 
   onMouseDownIncrement(): void {
@@ -188,5 +191,9 @@ export class NgMaterialInputSpinnerComponent implements ControlValueAccessor, Ma
   
   setDisabledState?(isDisabled: boolean): void {
     this.disabled = isDisabled;
+  }
+
+  private roundToClosestStep(value: number): number {
+    return +(this.step * Math.ceil(value / this.step)).toFixed(this.digits);
   }
 }

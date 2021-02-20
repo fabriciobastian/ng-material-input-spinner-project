@@ -12,17 +12,7 @@ export class AppComponent {
     numberControl: new FormControl(9.5, [Validators.max(10), Validators.min(9)])
   });
 
-  get numberControl(): FormControl {
-    return this.numberGroup.controls.numberControl as FormControl;
-  }
-
   setValueToTen() {
     this.numberGroup.controls.numberControl.setValue(10);
-  }
-
-  getErrorMessage() {
-    return this.numberControl.errors.max ? 'Must be <= 10' :
-           this.numberControl.errors.min ? 'Must be >= than 9' :
-           '';
   }
 }

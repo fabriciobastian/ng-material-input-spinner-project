@@ -6,16 +6,6 @@
   [value]="value"
   (change)="onInputChange($event)"
 >
-<button mat-icon-button 
-  type="button"
-  class="increment-button"
-  [disabled]="disabled || spinnerDisabled"
-  (mousedown)="onMouseDownIncrement()"
-  (mouseup)="onMouseUpIncrement()"
-  (mouseout)="onMouseOutIncrement()"
->
-  <mat-icon>add</mat-icon>
-</button>
 <button mat-icon-button
   type="button"
   class="decrement-button"
@@ -25,4 +15,14 @@
   (mouseout)="onMouseOutDecrement()"
 >
   <mat-icon>remove</mat-icon>
+</button>
+<button mat-icon-button 
+  type="button"
+  class="increment-button"
+  [disabled]="disabled || spinnerDisabled"
+  (mousedown)="onMouseDownIncrement()"
+  (mouseup)="onMouseUpIncrement()"
+  (mouseout)="onMouseOutIncrement()"
+>
+  <mat-icon>add</mat-icon>
 </button>

@@ -22,5 +22,5 @@ export class RepeatAction {
   public stop() {
     clearTimeout(this.initialTimer);
     clearInterval(this.intervalTimer);
-  } 
-};
+  }
+}

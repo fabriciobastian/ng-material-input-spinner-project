@@ -9,8 +9,8 @@ import { RepeatAction } from './repeat-action';
   selector: 'ng-material-input-spinner',
   templateUrl: './ng-material-input-spinner.component.html',
   providers: [
-    { 
-      provide: MatFormFieldControl, 
+    {
+      provide: MatFormFieldControl,
       useExisting: NgMaterialInputSpinnerComponent
     }
   ],
@@ -26,8 +26,8 @@ export class NgMaterialInputSpinnerComponent implements ControlValueAccessor, Ma
 
   spinnerDisabled = false;
 
-  onChange: any = (value: number) => {}
-  onTouch: any = (value: number) => {}
+  onChange: any = (value: number) => {};
+  onTouch: any = (value: number) => {};
 
   static nextId = 0;
   @HostBinding() id = `ng-material-input-spinner-${NgMaterialInputSpinnerComponent.nextId++}`;
@@ -96,7 +96,7 @@ export class NgMaterialInputSpinnerComponent implements ControlValueAccessor, Ma
     @Optional() @Self() public ngControl: NgControl,
     private focusMonitor: FocusMonitor,
     private elementRef: ElementRef<HTMLElement>) {
-    
+
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
     }
@@ -107,10 +107,10 @@ export class NgMaterialInputSpinnerComponent implements ControlValueAccessor, Ma
     });
 
     const numberComponents = this.step.toString().split('.');
-    this.digits = numberComponents.length > 1 ? numberComponents[numberComponents.length-1].length : 0;
+    this.digits = numberComponents.length > 1 ? numberComponents[numberComponents.length - 1].length : 0;
 
     this.incrementAction = new RepeatAction(() => { this.increment(); });
-    this.decrementAction = new RepeatAction(() => { this.decrement(); });  
+    this.decrementAction = new RepeatAction(() => { this.decrement(); });
   }
 
   ngOnDestroy(): void {
@@ -119,14 +119,14 @@ export class NgMaterialInputSpinnerComponent implements ControlValueAccessor, Ma
   }
 
   onContainerClick(event: MouseEvent): void {
-    if ((event.target as Element).tagName.toLowerCase() != 'input') {
+    if ((event.target as Element).tagName.toLowerCase() !== 'input') {
       this.elementRef.nativeElement.querySelector('input').focus();
     }
   }
 
   onInputChange(event): void {
-    const newValue = event.target.value
-    if (newValue === "") {
+    const newValue = event.target.value;
+    if (newValue === '') {
       this.value = void 0;
       this.spinnerDisabled = true;
       return;
@@ -180,15 +180,15 @@ export class NgMaterialInputSpinnerComponent implements ControlValueAccessor, Ma
     this.spinnerDisabled = this.disabled;
     this._value = value;
   }
-  
+
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
-  
+
   registerOnTouched(fn: any): void {
     this.onTouch = fn;
   }
-  
+
   setDisabledState?(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }

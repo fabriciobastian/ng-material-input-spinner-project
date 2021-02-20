@@ -2,7 +2,12 @@
   <form [formGroup]="numberGroup">
     <mat-form-field>
       <ng-material-input-spinner placeholder="Number" formControlName="numberControl"></ng-material-input-spinner>
-      <mat-error *ngIf="numberControl.invalid">{{ getErrorMessage() }}</mat-error>
+      <mat-error *ngIf="numberGroup.get('numberControl').hasError('max')">
+        Must be <= 10
+      </mat-error>
+      <mat-error *ngIf="numberGroup.get('numberControl').hasError('min')">
+        Must be >= than 9
+      </mat-error>
     </mat-form-field>
   </form>
 </div>
